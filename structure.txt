@@ -1,0 +1,48 @@
+src/
+├── app/                          # Next.js App Directory
+│   ├── layout.tsx                # Root layout (Navbar, Footer)
+│   ├── page.tsx                  # Homepage
+│   ├── shop/
+│   │   ├── page.tsx              # Shop Page
+│   │   ├── [id]/page.tsx         # Single Product Page
+│   ├── cart/page.tsx             # Cart Page
+│   ├── checkout/page.tsx         # Checkout Page
+│   ├── account/page.tsx          # My Account Page
+│   ├── contact/page.tsx          # Contact Page
+│   ├── blog/
+│   │   ├── page.tsx              # Blog List Page
+│   │   ├── [id]/page.tsx         # Single Blog Post Page
+│   ├── api/                      # API Routes
+│   │   ├── products/route.ts     # API for Products
+│   │   ├── orders/route.ts       # API for Orders
+│   │   ├── users/route.ts        # API for Users
+│
+├── components/                   # Reusable Components
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   ├── HeroSection.tsx           # Hero section for Homepage
+│   ├── ProductCard.tsx           # Reusable Product Card
+│   ├── ProductGrid.tsx           # Product Listing Grid
+│   ├── CartSidebar.tsx           # Cart Sidebar
+│   ├── RelatedProducts.tsx       # Related Products Section
+│   ├── AccountForm.tsx           # Login and Register Form
+│   ├── ContactForm.tsx           # Contact Form Component
+│   ├── BlogCard.tsx              # Blog Post Card
+│   ├── BlogList.tsx              # Blog Listing Component
+│
+├── styles/                       # Tailwind CSS Config and Global Styles
+│   ├── globals.css
+│   ├── tailwind.config.js
+│
+├── sanity/                       # Sanity Configuration and Schema
+│   ├── lib/
+│   │   └── client.ts             # Sanity Client Configuration
+│   ├── schemaTypes/
+│   │   ├── product.ts            # Product Schema
+│   │   ├── blog.ts               # Blog Schema
+│   │   ├── user.ts               # User Schema
+│   │   └── order.ts              # Order Schema
+│
+└── utils/                        # Utility Functions
+    ├── fetcher.ts                # Fetcher for API Calls
+    ├── formatCurrency.ts         # Currency Formatter
