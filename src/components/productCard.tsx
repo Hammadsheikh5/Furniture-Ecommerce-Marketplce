@@ -1,6 +1,10 @@
+'use client'
+
+import { FavoriteContext } from "@/app/context/favContext";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 interface ProductCardProps {
   _id: string;
@@ -9,11 +13,43 @@ interface ProductCardProps {
   price: number;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ _id, name, image, price }) => {
+interface FavoriteItem {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  _id,
+  name,
+  image,
+  price,
+}) => {
+  const { favorites, addToFavorites, removeFromFavorites } = useContext(FavoriteContext);
+
+  // Check if the product is in the favorites list
+  const isFavorite = favorites.some((favorite) => favorite._id === _id);
+
+  const handleFavoriteClick = () => {
+    const product: FavoriteItem = {
+      _id,
+      name,
+      price,
+      image,
+    };
+
+    if (isFavorite) {
+      removeFromFavorites(_id);
+    } else {
+      addToFavorites(product);
+    }
+  };
+
   return (
-    <Link href={""} key={_id}>
-      <div className="group15 flex flex-col items-center">
-        <div className="image-div h-[300px] w-[300px] flex justify-center items-center aspect-square overflow-hidden rounded-md">
+    <div key={_id} className="group15 flex flex-col items-start">
+      <div className="image-div mx-auto w-[200px] h-[200px] md:h-[300px] md:w-[300px] flex justify-center items-center aspect-square overflow-hidden rounded-md">
+        <Link href={`/shop/${_id}`}>
           <Image
             src={image}
             width={287}
@@ -21,17 +57,27 @@ const ProductCard: React.FC<ProductCardProps> = ({ _id, name, image, price }) =>
             alt={name}
             className="object-cover"
           />
-        </div>
-        <div className="h-[71px] w-[194px] flex flex-col justify-between">
+        </Link>
+      </div>
+
+      <div className="h-[71px] w-[194px] md:w-[250px] flex flex-col justify-center gap-2 mt-1 mx-auto">
+        <div className="flex justify-between items-center">
           <p className="text-sm md:text-base lg:text-base xl:text-base font-normal">
             {name}
           </p>
-          <p className="text-md md:text-lg lg:text-2xl xl:text-2xl font-medium">
-            ${price}
-          </p>
+          <button onClick={handleFavoriteClick} className="text-xl">
+            {isFavorite ? (
+              <FaHeart className="text-red-500" />
+            ) : (
+              <FaRegHeart />
+            )}
+          </button>
         </div>
+        <p className="text-md md:text-lg lg:text-2xl xl:text-2xl font-medium">
+          ${price}
+        </p>
       </div>
-    </Link>
+    </div>
   );
 };
 

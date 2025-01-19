@@ -21,8 +21,8 @@ export default async function ProductGrid() {
 
   return (
     <div className="font-poppins text-black bg-white">
-      <div className="w-full max-w-[1536px] mx-auto flex flex-col items-center px-[100px]">
-        <div className="container pt-[88px] flex flex-col md:flex-row md:grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+      <div className="w-full max-w-[1536px] mx-auto flex flex-col items-center px-[50px] lg:px-[100px]">
+        <div className="container pt-[50px] md:pt-[88px] flex flex-col md:flex-row md:grid md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-8 ">
           {products.map((product) => (
             <ProductCard
               key={product._id}

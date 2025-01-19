@@ -9,7 +9,7 @@ export default function ShopPage() {
     <div>
       <Header/>
       <Banner title="Shop"/>
-      <Filter/>
+      {/* <Filter/> */}
       <ProductGrid />
     </div>
   )
