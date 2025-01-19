@@ -10,7 +10,7 @@ export default function CheckoutPage() {
     const { cart} = useCart();
   
   return (
-    <div>
+    <div  className="text-black font-poppins bg-white">
       <Header />
       <Banner title="Checkout" />
       <div className="w-full max-w-[1536px] mx-auto h-auto p-8  flex flex-col md:flex-row gap-8  ">

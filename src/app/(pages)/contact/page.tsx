@@ -1,11 +1,15 @@
 import Banner from "@/components/banner";
 import ContactForm from "@/components/contactForm";
+import Footer2 from "@/components/footer2";
+import Header from "@/components/header";
 import React from "react";
 import { MdAccessTimeFilled, MdLocationPin, MdPhone } from "react-icons/md";
 
 export default function ContactPage() {
+
   return (
     <div className="font-poppins text-black bg-white">
+      <Header/>
       <Banner title="Contact" />
       <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 xl:px-[191px] py-[50px] lg:h-[1144px]">
         <div className="text-center mb-10">
@@ -56,6 +60,7 @@ export default function ContactPage() {
           
         </div>
       </div>
+      <Footer2/>
     </div>
   );
 }

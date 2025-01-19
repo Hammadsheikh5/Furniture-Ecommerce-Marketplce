@@ -36,7 +36,6 @@ export default function RootLayout({
         {children}
         </CartProvider>
         </FavoriteProvider>
-        <Footer2/>
         <Footer/>
       </body>
     </html>

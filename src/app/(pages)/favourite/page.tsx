@@ -12,7 +12,7 @@ export default function FavouritesPage() {
   const { favorites, removeFromFavorites } = useContext(FavoriteContext); // Access the favorites list and remove function
 
   return (
-    <div>
+    <div  className="text-black font-poppins bg-white">
       <Header/>
       <Banner title="Favourites" />
 

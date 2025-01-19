@@ -28,7 +28,8 @@ export default function CartPage() {
           </div>
         ) : (
           <div className="px-2 sm:px-12 lg:px-[100px] py-6 sm:py-8 lg:py-[70px] flex flex-col xl:flex-row justify-between items-start gap-6 lg:gap-2">
-            {/* Product Section */}
+            {/* Product Cart Table Section */}
+            
             <div className="w-full xl:w-[817px] ">
               <table className="w-full ">
                 <thead>

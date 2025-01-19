@@ -4,12 +4,15 @@ import { FaTag } from "react-icons/fa6";
 import { LuSearch } from "react-icons/lu";
 import Image from "next/image";
 import Banner from "@/components/banner";
+import Header from "@/components/header";
 
 const page = () => {
   return (
     <div  className="bg-white w-full max-w-[1536px] mx-auto">
-      {/* Blog Main page */}
+
+       <Header/>
       <Banner title="Blog" />
+      
 
       {/* Blog Content*/}
 
