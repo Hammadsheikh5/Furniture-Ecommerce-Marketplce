@@ -46,7 +46,7 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
         image: product.image,
         quantity: quantity,
         _id: product._id,
-        total: product.price,
+        total: product.price*quantity,
         size: selectedSize,
         color: selectedColor,
       });

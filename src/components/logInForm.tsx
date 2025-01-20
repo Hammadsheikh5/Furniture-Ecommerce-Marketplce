@@ -14,7 +14,7 @@ export default function LogInForm() {
     console.log('Logging in with:', { username, password, rememberMe });
     // Handle login logic here (e.g., authentication API call)
 
-  };
+  }; 
 
   return (
     <div className="w-full md:w-1/2 px-8 lg:px-10 2xl:px-24 py-6">

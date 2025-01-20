@@ -24,7 +24,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
-  console.log(cart)
+  // console.log(cart) 
   const [notification, setNotification] = useState<string | null>(null);
 
   // Function to display notifications
