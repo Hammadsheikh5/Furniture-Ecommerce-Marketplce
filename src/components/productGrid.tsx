@@ -51,7 +51,14 @@ export default async function ProductGrid({ filter }: { filter: string }) {
   }
   // console.log(filter)
 
-  const products: Products[] = await client.fetch(query);
+  let products: Products[] = [];
+
+  try {
+    products = await client.fetch(query);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    // Optionally, handle the error by showing a fallback UI or a message.
+  }
 
   return (
     <div className="font-poppins text-black bg-white">

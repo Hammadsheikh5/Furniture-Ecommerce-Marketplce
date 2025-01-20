@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import ProductCard from "./productCard";
 import { client } from "@/sanity/lib/client";
@@ -12,22 +11,32 @@ export interface Products {
   isFeaturedProduct: boolean;
 }
 
-
 export default async function RelatedProduct(params: {
   title: string;
   showDesc: boolean;
 }) {
-  const products: Products[] = await client.fetch(`*[_type == "product" && isFeaturedProduct == true] [0..3] {
-  _id,
-  name,
-  "image" : image.asset->url,
-  price,
-  isFeaturedProduct,
-}
-`);
+  let products: Products[] = [];
+  let isError = false;
+  let errorMessage = "";
+
+  try {
+    products =
+      await client.fetch(`*[_type == "product" && isFeaturedProduct == true] [0..3] {
+      _id,
+      name,
+      "image" : image.asset->url,
+      price,
+      isFeaturedProduct,
+    }`);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    isError = true;
+    errorMessage = "Failed to load featured products. Please try again later.";
+  }
+
   return (
     <div className="font-poppins bg-white text-black">
-      <div className="group19 w-full max-w-[1536px] mx-auto flex flex-col items-center py-[55px]  px-[50px] lg:px-[100px]">
+      <div className="group19 w-full max-w-[1536px] mx-auto flex flex-col items-center py-[55px] px-[50px] lg:px-[100px]">
         {/* Title and Description */}
         <div className="container flex flex-col text-center justify-center gap-5 font-medium">
           <p className="text-xl sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl ">
@@ -42,19 +51,25 @@ export default async function RelatedProduct(params: {
         </div>
 
         {/* Product Grid */}
-        <div className="container pt-[50px] md:pt-[88px] flex flex-col md:flex-row md:grid md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-8 ">
-          {products.map((product) => (
-            <ProductCard
-              key={product._id}
-              _id={product._id}
-              name={product.name}
-              image={product.image}
-              price={product.price}
-            />
-          ))}
-        </div>
+        {isError ? (
+          <div className="container pt-[50px] md:pt-[88px] text-center text-red-500">
+            <p>{errorMessage}</p>
+          </div>
+        ) : (
+          <div className="container pt-[50px] md:pt-[88px] flex flex-col md:flex-row md:grid md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-8 ">
+            {products.map((product) => (
+              <ProductCard
+                key={product._id}
+                _id={product._id}
+                name={product.name}
+                image={product.image}
+                price={product.price}
+              />
+            ))}
+          </div>
+        )}
 
-        <ActionLink name="View More " href="/shop"/>
+        <ActionLink name="View More " href="/shop" />
       </div>
     </div>
   );
