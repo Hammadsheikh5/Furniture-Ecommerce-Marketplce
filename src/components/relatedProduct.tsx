@@ -27,7 +27,7 @@ export default async function RelatedProduct(params: {
 `);
   return (
     <div className="font-poppins bg-white text-black">
-      <div className="group19 w-full max-w-[1536px] mx-auto flex flex-col items-center py-[55px] px-[100px]">
+      <div className="group19 w-full max-w-[1536px] mx-auto flex flex-col items-center py-[55px]  px-[50px] lg:px-[100px]">
         {/* Title and Description */}
         <div className="container flex flex-col text-center justify-center gap-5 font-medium">
           <p className="text-xl sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl ">
@@ -42,7 +42,7 @@ export default async function RelatedProduct(params: {
         </div>
 
         {/* Product Grid */}
-        <div className="container pt-[88px] flex flex-col md:flex-row md:grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+        <div className="container pt-[50px] md:pt-[88px] flex flex-col md:flex-row md:grid md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-8 ">
           {products.map((product) => (
             <ProductCard
               key={product._id}

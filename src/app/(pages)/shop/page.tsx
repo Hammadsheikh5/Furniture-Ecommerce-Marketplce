@@ -1,16 +1,20 @@
 import Banner from '@/components/banner'
-import Filter from '@/components/filter'
 import Header from '@/components/header'
 import ProductGrid from '@/components/productGrid'
 import React from 'react'
 
-export default function ShopPage() {
+export default  function ShopPage({
+  searchParams,
+}: {
+  searchParams?: { filter?: string };
+}) {
+  const filter = searchParams?.filter || "default";
+
   return (
     <div>
       <Header/>
       <Banner title="Shop"/>
-      {/* <Filter/> */}
-      <ProductGrid />
+      <ProductGrid filter={filter}  />
     </div>
   )
 }

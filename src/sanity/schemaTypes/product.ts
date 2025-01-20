@@ -73,6 +73,22 @@ export default {
           .max(5)
           .error('Rating must be between 1 and 5'),
     },
+    {
+      name: 'sizes',
+      type: 'array',
+      title: 'Sizes',
+      of: [{ type: 'string' }],
+      description: 'Available sizes for the product (e.g., Small, Medium, Large).',
+      validation: (Rule: any) => Rule.unique().error('Sizes must be unique'),
+    },
+    {
+      name: 'colors',
+      type: 'array',
+      title: 'Colors',
+      of: [{ type: 'string' }],
+      description: 'Available colors for the product (e.g., Red, Blue, Green).',
+      validation: (Rule: any) => Rule.unique().error('Colors must be unique'),
+    },
 
   ],
 };

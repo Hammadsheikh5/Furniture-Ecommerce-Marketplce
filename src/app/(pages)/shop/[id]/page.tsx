@@ -14,6 +14,8 @@ interface ProductDetail {
   price: number;
   stockLevel:number;
   _id:string;
+  sizes:string[];
+  colors:string[];
 }
 
 interface IParams {
@@ -30,7 +32,9 @@ export default async function ProductDetailPage({ params }: IParams) {
     "image" : image.asset->url,
     category,
     stockLevel,
-    _id
+    _id,
+    sizes,
+    colors
   }`;
 
   const product: ProductDetail | null = await client.fetch(query, { id });

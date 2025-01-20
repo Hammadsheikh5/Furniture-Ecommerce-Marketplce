@@ -191,7 +191,7 @@ export default function CheckoutPage() {
           </p>
           <div className="w-full flex items-center justify-center my-7  ">
             {/*Place order button */}
-            <button className=" w-1/2 py-3 text-xl text-center border-2 border-black rounded-xl hover:bg-blue-600">
+            <button className=" w-1/2 py-3 text-xl text-center border-2 border-black rounded-xl hover:bg-[#ffefce]">
               Place Order
             </button>
           </div>

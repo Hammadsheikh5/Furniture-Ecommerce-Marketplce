@@ -2,6 +2,8 @@
 import { useCart } from "@/app/context/cardContext";
 import { FavoriteContext } from "@/app/context/favContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // For navigation
+
 import React, { useContext, useState } from "react";
 import { CiShoppingCart, CiSearch, CiHeart, CiUser } from "react-icons/ci";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -46,7 +48,7 @@ export default function Header() {
         </div>
 
         {/* Icons Section */}
-        <div className="flex items-center gap-6 sm:gap-8 text-[24px] sm:text-[28px] sm:pr-20">
+        <div className="flex items-center gap-6 sm:gap-8 text-[24px] sm:text-[28px] md:pr-20">
           <Link href="/myAccount">
             <CiUser />
           </Link>
@@ -91,17 +93,17 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/Pages/shop" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/shop" onClick={() => setIsMenuOpen(false)}>
               Shop
             </Link>
           </li>
           <li>
-            <Link href="#" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/blogs" onClick={() => setIsMenuOpen(false)}>
               About
             </Link>
           </li>
           <li>
-            <Link href="/Pages/contact" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
               Contact
             </Link>
           </li>

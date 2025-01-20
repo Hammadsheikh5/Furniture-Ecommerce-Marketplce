@@ -9,6 +9,8 @@ export interface CartItem {
   quantity: number;
   total: number;
   image: string;
+  size:string;
+  color:string;
 }
 
 interface CartContextType {
@@ -22,6 +24,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  console.log(cart)
   const [notification, setNotification] = useState<string | null>(null);
 
   // Function to display notifications
@@ -31,6 +34,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addToCart = (item: CartItem) => {
+    
     setCart((prev) => {
       const existingItem = prev.find((cartItem) => cartItem._id === item._id);
       if (existingItem) {

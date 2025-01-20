@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div key={_id} className="group15 flex flex-col items-start">
-      <div className="image-div mx-auto w-[200px] h-[200px] md:h-[300px] md:w-[300px] flex justify-center items-center aspect-square overflow-hidden rounded-md">
+      <div className="image-div mx-auto w-[200px] h-[150px] md:h-[180px] md:w-[300px] flex justify-center items-center aspect-square overflow-hidden rounded-md">
         <Link href={`/shop/${_id}`}>
           <Image
             src={image}

@@ -91,17 +91,17 @@ export default function HomeHeader() {
             </Link>
           </li>
           <li>
-            <Link href="/Pages/shop" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/shop" onClick={() => setIsMenuOpen(false)}>
               Shop
             </Link>
           </li>
           <li>
-            <Link href="#" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/blogs" onClick={() => setIsMenuOpen(false)}>
               About
             </Link>
           </li>
           <li>
-            <Link href="/Pages/contact" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
               Contact
             </Link>
           </li>

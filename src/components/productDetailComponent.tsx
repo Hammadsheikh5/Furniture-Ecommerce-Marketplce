@@ -13,7 +13,9 @@ interface ProductDetail {
   category: string;
   price: number;
   stockLevel: number;
-  _id:string;
+  _id: string;
+  sizes: string[];
+  colors: string[];
 }
 
 interface ProductDetailComponentProps {
@@ -25,7 +27,18 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
 }) => {
   const [quantity, setquantity] = useState<number>(1);
   const { addToCart } = useCart(); // Get the `addToCart` function from CartContext
+  const [selectedSize, setSelectedSize] = useState<string>(""); // State for selected size
+  const [selectedColor, setSelectedColor] = useState<string>(""); // State for selected size
+
   const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert("Please select a size before adding to the cart."); // Prompt user to select size
+      return; // Prevent adding to the cart if no size is selected
+    }
+    if (!selectedColor) {
+      alert("Please select a color before adding to the cart."); // Prompt user to select size
+      return; // Prevent adding to the cart if no size is selected
+    }
     if (product) {
       addToCart({
         name: product.name,
@@ -33,18 +46,20 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
         image: product.image,
         quantity: quantity,
         _id: product._id,
-        total: product.price
+        total: product.price,
+        size: selectedSize,
+        color: selectedColor,
       });
-
+    } else {
+      alert("Please select a size before adding to cart.");
     }
   };
-
 
   return (
     <div className="product-div w-full max-w-[1536px] h-auto lg:h-[820px] mx-auto xl:py-8 px-4 sm:px-8 lg:px-16">
       <div className="h-auto w-full max-w-[1240px] mx-auto bg-white flex flex-col lg:flex-row items-center lg:items-start justify-between gap-6 lg:gap-0">
         {/* Product Image */}
-        <div className="picture-div h-[300px] sm:h-[400px] lg:h-[500px] w-full sm:w-[600px] lg:w-[550px]flex items-center justify-center">
+        <div className="picture-div h-[300px] sm:h-[400px] lg:h-[500px] w-full sm:w-[600px] lg:w-[550px]flex items-center justify-center ">
           <Image
             src={product.image}
             width={550}
@@ -91,28 +106,39 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
           </p>
 
           {/* Size Options */}
-          <div className="flex flex-col h-[63px] w-[123px] gap-2">
+          <div className="flex flex-col h-auto gap-2">
             <p className="text-sm text-[#9F9F9F]">Size</p>
-            <div className="flex justify-between text-sm">
-              <div className="h-[30px] w-[30px] hover:bg-[#FBEBB5] cursor-pointer flex items-center justify-center rounded-[5px]">
-                L
-              </div>
-              <div className="h-[30px] w-[30px] hover:bg-[#FBEBB5] cursor-pointer flex items-center justify-center rounded-[5px]">
-                XL
-              </div>
-              <div className="h-[30px] w-[30px] hover:bg-[#FBEBB5] cursor-pointer flex items-center justify-center rounded-[5px]">
-                XS
-              </div>
+            <div className="flex gap-2">
+              {product.sizes.map((size, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSelectedSize(size)} // Set selected size on click
+                  className={`h-[30px] w-[30px] cursor-pointer flex items-center justify-center rounded-[5px] ${
+                    selectedSize === size
+                      ? "bg-[#FBEBB5]"
+                      : "hover:bg-[#FBEBB5]"
+                  }`}
+                >
+                  {size}
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Color Options */}
-          <div className="flex flex-col h-[63px] w-[123px] gap-2">
+          <div className="flex flex-col h-auto gap-2">
             <p className="text-sm text-[#9F9F9F]">Color</p>
-            <div className="flex justify-between text-sm">
-              <div className="h-[30px] w-[30px] bg-[#816DFA] flex items-center justify-center rounded-full"></div>
-              <div className="h-[30px] w-[30px] bg-[#000000] flex items-center justify-center rounded-full"></div>
-              <div className="h-[30px] w-[30px] bg-[#CDBA7B] flex items-center justify-center rounded-full"></div>
+            <div className="flex gap-2">
+              {product.colors.map((color, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSelectedColor(color)} // Set selected color on click
+                  style={{ backgroundColor: color }} // Set background color dynamically
+                  className={`h-[30px] w-[30px] cursor-pointer flex items-center justify-center rounded-full border ${
+                    selectedColor === color ? "border-black" : "border-gray-500"
+                  }`}
+                ></div>
+              ))}
             </div>
           </div>
 

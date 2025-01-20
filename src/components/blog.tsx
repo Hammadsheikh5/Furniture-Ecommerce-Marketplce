@@ -2,6 +2,7 @@ import { LuClock4 } from "react-icons/lu";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import Link from "next/link";
 import Image from "next/image";
+import ActionLink from "./actionLink";
 
 function OurBlogs() {
   return (
@@ -23,9 +24,10 @@ function OurBlogs() {
               <p className="text-[20px] py-[10px] text-center">
                 Going all-in with millennial design
               </p>
-              <p className="text-[24px] underline underline-offset-[16px] text-center font-medium py-[10px]">
-                <Link href="/blogs">Read More</Link>
-              </p>
+              <div className="flex justify-center items-center ">
+
+              <ActionLink name="Read More" href="/blogs"/>
+              </div>
             </div>
             <div className="flex gap-[20px]  justify-center">
               <div className="flex gap-[7px] items-center">
@@ -47,9 +49,10 @@ function OurBlogs() {
               <p className="text-[20px] py-[10px] text-center">
                 Going all-in with millennial design
               </p>
-              <p className="text-[24px] underline underline-offset-[16px] text-center font-medium py-[10px]">
-                <Link href="/blogs">Read More</Link>
-              </p>
+              <div className="flex justify-center items-center ">
+
+              <ActionLink name="Read More" href="/blogs"/>
+              </div>
             </div>
             <div className="flex gap-[20px]  justify-center">
               <div className="flex gap-[7px] items-center">
@@ -71,9 +74,10 @@ function OurBlogs() {
               <p className="text-[20px] py-[10px] text-center">
                 Going all-in with millennial design
               </p>
-              <p className="text-[24px] underline underline-offset-[16px] text-center font-medium py-[10px]">
-                <Link href="/blogs">Read More</Link>
-              </p>
+              <div className="flex justify-center items-center ">
+
+              <ActionLink name="Read More" href="/blogs"/>
+              </div>
             </div>
             <div className="flex gap-[20px]  justify-center">
               <div className="flex gap-[7px] items-center">
@@ -91,9 +95,10 @@ function OurBlogs() {
         </div>
 
         {/*view more link*/}
-        <p className="text-center py-[40px] underline underline-offset-[16px] text-[20px]">
-          <Link href="/blogs">View all post</Link>
-        </p>
+        <div className="flex justify-center items-center pt-2">
+        <ActionLink name="View Post" href="/blogs"/>
+        </div>
+
       </div>
     </>
   );
