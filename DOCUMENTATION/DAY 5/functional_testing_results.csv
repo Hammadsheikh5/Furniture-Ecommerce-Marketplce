@@ -1,0 +1,8 @@
+Test Case ID,Test Case Description,Test Steps,Expected Result,Actual Result,Status,Severity Level,Assigned To,Remarks
+TC001,Validate product listing page,Open product page > Verify products,Products displayed correctly,Products displayed correctly,Passed,Low,-,No issues found
+TC002,Test API error handling,Disconnect API > Refresh page,Show fallback UI with error message,Error message shown,Passed,Medium,-,Handled gracefully
+TC003,"Check ""Add to Favorites"" feature",Add product to favorites > Verify in favorites section,Product added to favorites section,Product added successfully,Passed,Medium,-,Works as expected
+TC004,Validate cart operations,Add product to cart > Verify cart contents,Cart updates with added product,Cart updates as expected,Passed,High,-,Functionality stable
+TC005,Ensure responsiveness on mobile,Resize browser window > Check layout,Layout adjusts properly to screen size,Responsive layout working as intended,Passed,Medium,-,Test successful
+TC006,Verify dynamic routing for products,Click on a product > Verify individual product detail page loads successfully,Correct product detail page displayed,Product detail page loads correctly,Passed,High,-,No issues
+TC007,Cross Browsering,Open Our website on different Browsers such as yahoo," google, safari ,edge",Working Correctly on every browsers,Paassed,Low,-,Successfully
