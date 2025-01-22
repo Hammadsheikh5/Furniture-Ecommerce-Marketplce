@@ -15,12 +15,13 @@ export interface Products {
 }
 
 export default async function ProductGrid() {
-  const query = `*[_type == "product"]{
+  const query = `*[_type == "product"] | order(_createdAt asc
+) {
     name,
     _id,
     "image": image.asset->url,
     price,
-    featuredProducts,
+    isFeaturedProduct,
     category
   }`;
 
