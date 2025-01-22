@@ -14,6 +14,7 @@ export interface Products {
 export default async function RelatedProduct(params: {
   title: string;
   showDesc: boolean;
+  
 }) {
   let products: Products[] = [];
   let isError = false;

@@ -31,7 +31,7 @@ export default function CheckoutPage() {
     email: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setCustomerInfo({ ...customerInfo, [name]: value });
   };

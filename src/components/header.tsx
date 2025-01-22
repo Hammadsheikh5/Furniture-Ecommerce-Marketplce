@@ -2,7 +2,6 @@
 import { useCart } from "@/app/context/cardContext";
 import { FavoriteContext } from "@/app/context/favContext";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // For navigation
 
 import React, { useContext, useState } from "react";
 import { CiShoppingCart, CiSearch, CiHeart, CiUser } from "react-icons/ci";

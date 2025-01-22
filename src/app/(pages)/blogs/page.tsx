@@ -22,7 +22,7 @@ const page = () => {
         <div className="w-full lg:px-12 space-y-6">
           {/* FIrst Blog */}
           <Image
-            src="/Assets/Image 26.jpg"
+            src="/blog/Image 26.jpg"
             alt="Image"
             width={817}
             height={400}
@@ -61,7 +61,7 @@ const page = () => {
           {/* Second Blog */}
 
           <Image
-            src="/Assets/Image 27.jpg"
+            src="/blog/Image 27.jpg"
             alt="Image"
             width={817}
             height={400}
@@ -100,7 +100,7 @@ const page = () => {
           {/*Third Blog */}
 
           <Image
-            src="/Assets/Image 28.jpg"
+            src="/blog/Image 28.jpg"
             alt="Image"
             width={817}
             height={500}
@@ -176,7 +176,7 @@ const page = () => {
             {/*  First Post */}
             <div className="flex items-center space-x-4 ">
               <Image
-                src="/Assets/Image 29.jpg"
+                src="/blog/Image 29.jpg"
                 alt="Image"
                 width={80}
                 height={80}
@@ -192,7 +192,7 @@ const page = () => {
             {/*  Second Post */}
             <div className="flex items-center space-x-4">
               <Image
-                src="/Assets/Image 30.jpg"
+                src="/blog/Image 30.jpg"
                 alt="Image"
                 width={80}
                 height={80}
@@ -209,7 +209,7 @@ const page = () => {
 
             <div className="flex items-center space-x-4">
               <Image
-                src="/Assets/Image 31.jpg"
+                src="/blog/Image 31.jpg"
                 alt="Image"
                 width={80}
                 height={80}
@@ -226,7 +226,7 @@ const page = () => {
 
             <div className="flex items-center space-x-4">
               <Image
-                src="/Assets/Image 32.jpg"
+                src="/blog/Image 32.jpg"
                 alt="Image"
                 width={80}
                 height={80}
@@ -241,7 +241,7 @@ const page = () => {
 
             <div className="flex items-center space-x-6">
               <Image
-                src="/Assets/Image 33.jpg"
+                src="/blog/Image 33.jpg"
                 alt="Image"
                 width={80}
                 height={80}

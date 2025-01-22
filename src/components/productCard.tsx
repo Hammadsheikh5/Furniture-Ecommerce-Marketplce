@@ -56,13 +56,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
             height={287}
             alt={name}
             className="object-cover"
+            quality={75} // Compress image
+            loading="lazy" // Lazy load
           />
         </Link>
       </div>
 
       <div className="h-[71px] w-[194px] md:w-[250px] flex flex-col justify-center gap-2 mt-1 mx-auto">
         <div className="flex justify-between items-center">
-          <p className="text-sm md:text-base lg:text-base xl:text-base font-normal">
+          <p className="text-sm md:text-base lg:text-base xl:text-base font-normal pt-1">
             {name}
           </p>
           <button onClick={handleFavoriteClick} className="text-xl">
