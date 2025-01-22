@@ -29,16 +29,28 @@ export default function ProductGrid() {
 
   useEffect(() => {
     // Initial fetch
-    client.fetch(query).then((data) => setProducts(data));
+    const fetchProducts = async () => {
+      try {
+        const data = await client.fetch(query);
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
 
     // Setup GROQ Subscription for real-time updates
     const subscription = client.listen(query).subscribe((update) => {
-      client.fetch(query).then((data) => setProducts(data));
+      if (update) {
+        console.log("Sanity update received:", update);
+        fetchProducts(); // Re-fetch products on any update
+      }
     });
 
     // Cleanup the subscription on unmount
     return () => subscription.unsubscribe();
-  }, []);
+  }, [query]);
 
   return (
     <div className="font-poppins text-black bg-white">
