@@ -99,10 +99,8 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
           </div>
 
           {/* Product Description */}
-          <p className="text-sm sm:text-base">
-            Setting the bar as one of the loudest speakers in its class, the
-            Kilburn is a compact, stout-hearted hero with a well-balanced audio
-            which boasts a clear midrange and extended highs for a sound.
+          <p className="text-sm sm:text-base">{product.description}
+            
           </p>
 
           {/* Size Options */}
