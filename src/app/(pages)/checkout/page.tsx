@@ -55,10 +55,6 @@ export default function CheckoutPage() {
       alert("Please complete all required fields and select a payment method.");
       return;
     }
-    const subtotal = cart.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
 
     console.log(customerInfo);
     console.log(cart);
