@@ -19,6 +19,10 @@ interface CustomerInfo {
 }
 
 export default function CheckoutPage() {
+  const { cart } = useCart();
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [deliveryCharges, setDeliveryCharges] = useState<number>(0);
+
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     firstName: "",
     secondName: "",
@@ -31,17 +35,41 @@ export default function CheckoutPage() {
     email: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setCustomerInfo({ ...customerInfo, [name]: value });
   };
-  const handleCheckout = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log(customerInfo);
-    console.log(cart)
+
+  const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedPayment = e.target.value;
+    setPaymentMethod(selectedPayment);
+    setDeliveryCharges(50); // Set delivery charges for both payment methods
   };
 
-  const { cart } = useCart();
+  const handleCheckout = (event: React.FormEvent) => {
+    event.preventDefault();
+    const isFormComplete = Object.values(customerInfo).every((value) => value);
+    if (!isFormComplete || !paymentMethod) {
+      alert("Please complete all required fields and select a payment method.");
+      return;
+    }
+    const subtotal = cart.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+
+    console.log(customerInfo);
+    console.log(cart);
+    console.log(`Your Total : ${grandTotal}`)
+  };
+
+  const subtotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const grandTotal = subtotal + deliveryCharges;
 
   return (
     <div className="text-black font-poppins bg-white">
@@ -103,7 +131,7 @@ export default function CheckoutPage() {
                   required
                   className="w-full px-2 h-[50px] lg:h-[75px] border border-[#9F9F9F] rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2 lg:mt-5"
                 >
-                  <option value="" disabled >
+                  <option value="" disabled>
                     Select a country
                   </option>
                   <option value="Pakistan">Pakistan</option>
@@ -148,7 +176,7 @@ export default function CheckoutPage() {
                   required
                   className="w-full px-2 h-[50px] lg:h-[75px] border border-[#9F9F9F] rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2 lg:mt-5"
                 >
-                  <option value="" disabled >
+                  <option value="" disabled>
                     Select a province
                   </option>
                   <option value="Sindh">Sindh</option>
@@ -209,7 +237,6 @@ export default function CheckoutPage() {
           </div>
 
           {/* Order Summary Section */}
-          {/* Order Summary Section */}
           <div className="w-full md:w-1/2 px-6 py-10">
             <div className="flex justify-between">
               <h2 className="text-2xl font-semibold mb-4">Product</h2>
@@ -232,7 +259,7 @@ export default function CheckoutPage() {
             <div className="flex justify-between mt-4 ">
               <span>Subtotal</span>
               <span>
-                Rs.{" "}
+                ${" "}
                 {cart
                   .reduce(
                     (total, item) => total + item.price * item.quantity,
@@ -241,16 +268,15 @@ export default function CheckoutPage() {
                   .toLocaleString()}
               </span>
             </div>
+            <div className="flex justify-between">
+              <span>Delivery Charges</span>
+              <span>${" "}{deliveryCharges.toLocaleString()}</span>
+            </div>
             <div className="flex justify-between border-b-2 mt-2 pb-6">
               <span>Total</span>
               <span className="text-xl font-bold text-[#B88E2F]">
-                Rs.{" "}
-                {cart
-                  .reduce(
-                    (total, item) => total + item.price * item.quantity,
-                    0
-                  )
-                  .toLocaleString()}
+                ${" "}
+                {grandTotal.toLocaleString()}
               </span>
             </div>
             <div className="flex items-center gap-2 text-xl mt-4">
@@ -270,18 +296,26 @@ export default function CheckoutPage() {
             <div className="mb-4 text-[#9F9F9F]">
               <label className="flex items-center">
                 <input
-                  required
                   type="radio"
                   name="payment"
-                  className="mr-2 bg-black"
+                  value="Direct Bank Transfer"
+                  onChange={handlePaymentChange}
+                  className="mr-2"
+                  required
                 />
                 Direct Bank Transfer
               </label>
             </div>
-
             <div className="mb-4 text-[#9F9F9F]">
               <label className="flex items-center">
-                <input required type="radio" name="payment" className="mr-2" />
+                <input
+                  type="radio"
+                  name="payment"
+                  value="Cash on Delivery"
+                  onChange={handlePaymentChange}
+                  className="mr-2"
+                  required
+                />
                 Cash on Delivery
               </label>
             </div>
@@ -294,7 +328,7 @@ export default function CheckoutPage() {
             <div className="w-full flex items-center justify-center my-7  ">
               {/*Place order button */}
               <button
-                // type="submit"
+                type="submit"
                 onClick={handleCheckout}
                 className=" w-1/2 py-3 text-xl text-center border-2 border-black rounded-xl hover:bg-[#ffefce]"
               >
