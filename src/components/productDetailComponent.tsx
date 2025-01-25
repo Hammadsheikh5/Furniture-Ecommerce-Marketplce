@@ -57,15 +57,15 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
 
   return (
     <div className="product-div w-full max-w-[1536px] h-auto lg:h-[820px] mx-auto xl:py-8 px-4 sm:px-8 lg:px-16">
-      <div className="h-auto w-full max-w-[1240px] mx-auto bg-white flex flex-col lg:flex-row items-center lg:items-start justify-between gap-6 lg:gap-0">
+      <div className="h-auto w-full max-w-[1240px] mx-auto bg-white flex flex-col lg:flex-row items-center  justify-between gap-6 lg:gap-0">
         {/* Product Image */}
-        <div className="picture-div h-[300px] sm:h-[400px] lg:h-[500px] w-full sm:w-[600px] lg:w-[550px]flex items-center justify-center ">
+        <div className="picture-div h-auto w-full sm:w-[600px] lg:w-[550px]flex items-center justify-center ">
           <Image
             src={product.image}
             width={550}
             height={500}
             alt={product.name}
-            className="object-contain xl:w-[550px] xl:h-[500px]"
+            className="object-contain"
           />
         </div>
 
