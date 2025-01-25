@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 export interface CartItem {
   _id: string;
@@ -23,7 +23,11 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    // Retrieve cart data from Local Storage
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   // console.log(cart) 
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -65,6 +69,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     showNotification('Cart cleared!');
     setCart([]);
   };
+
+    // Save the cart data to LocalStorage whenever it changes
+    useEffect(() => {
+      if (cart.length > 0) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+      } else {
+        localStorage.removeItem('cart');
+      }
+    }, [cart]);
 
   return (
     <CartContext.Provider value={{ cart, addToCart, clearCart, deleteCartItem }}>

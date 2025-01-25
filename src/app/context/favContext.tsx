@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode,  } from "react";
 
 export interface FavoriteItem {
   _id: string;
@@ -22,7 +22,12 @@ export const FavoriteContext = createContext<FavoriteContextType>({
 });
 
 export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
-  const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+  const [favorites, setFavorites] = useState<FavoriteItem[]>(() => {
+    // Retrieve favorites data from Local Storage
+    const savedFavorites = localStorage.getItem('favorites');
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
+
   const [notification, setNotification] = useState<string | null>(null);
 
   const showNotification = (message: string) => {
@@ -31,20 +36,25 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addToFavorites = (item: FavoriteItem) => {
-    setFavorites((prevFavorites) => [...prevFavorites, item]);
+    setFavorites((prevFavorites) => {
+      const updatedFavorites = [...prevFavorites, item];
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      return updatedFavorites;
+    });
     showNotification(`${item.name} added to favorites!`);
   };
 
   const removeFromFavorites = (slug: string) => {
-    const newFavorites = favorites.filter((item) => item._id !== slug);
-    setFavorites(newFavorites);
+    setFavorites((prevFavorites) => {
+      const updatedFavorites = prevFavorites.filter((item) => item._id !== slug);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      return updatedFavorites;
+    });
     showNotification(`Item removed from favorites!`);
   };
 
   return (
-    <FavoriteContext.Provider
-      value={{ favorites, addToFavorites, removeFromFavorites }}
-    >
+    <FavoriteContext.Provider value={{ favorites, addToFavorites, removeFromFavorites }}>
       {children}
       {notification && (
         <div className="text-sm md:text-lg fixed bottom-8 right-8 bg-green-500 text-white p-4 rounded shadow-lg animate-fade">
