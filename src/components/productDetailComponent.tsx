@@ -1,6 +1,7 @@
 "use client";
 import { useCart } from "@/app/context/cardContext";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
@@ -26,9 +27,10 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
   product,
 }) => {
   const [quantity, setquantity] = useState<number>(1);
-  const { addToCart } = useCart(); // Get the `addToCart` function from CartContext
+  const { addToCart, cart } = useCart(); // Get the `addToCart` function from CartContext
   const [selectedSize, setSelectedSize] = useState<string>(""); // State for selected size
   const [selectedColor, setSelectedColor] = useState<string>(""); // State for selected size
+  const [isCartVisible, setCartVisible] = useState(false);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -46,13 +48,14 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
         image: product.image,
         quantity: quantity,
         _id: product._id,
-        total: product.price*quantity,
+        total: product.price * quantity,
         size: selectedSize,
         color: selectedColor,
       });
     } else {
       alert("Please select a size before adding to cart.");
     }
+    setCartVisible(true);
   };
 
   return (
@@ -99,9 +102,7 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
           </div>
 
           {/* Product Description */}
-          <p className="text-sm sm:text-base">{product.description}
-            
-          </p>
+          <p className="text-sm sm:text-base">{product.description}</p>
 
           {/* Size Options */}
           <div className="flex flex-col h-auto gap-2">
@@ -204,6 +205,57 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
           </div>
         </div>
       </div>
+      {isCartVisible && (
+        <div className="fixed top-0 right-0 h-[80vh] bg-white shadow-xl transition-transform duration-300 ease-in-out transform translate-x-0 w-[350px] md:w-[500px] lg:w-[550px] xl:w-[650px] ">
+          <div className="p-4 border-b flex justify-between items-center">
+            <h2 className="text-lg font-bold text-black">Shopping Cart</h2>
+            <button
+              onClick={() => setCartVisible(false)}
+              className="text-red-500 text-base sm:text-lg"
+            >
+              Close
+            </button>
+          </div>
+          <div className="p-4 flex flex-col gap-4 h-[calc(100%-120px)]">
+            {cart.length > 0 ? (
+              <div className="flex-1 overflow-y-auto">
+                {cart.map((item, index) => (
+                  <div key={index} className="flex items-center gap-4 mb-4">
+                    <div className="aspect-square overflow-hidden flex justify-center items-center h-[60px] w-[80px] sm:h-[80px] sm:w-[100px]">
+                      <Image
+                        src={item.image}
+                        width={111}
+                        height={90}
+                        alt={item.name}
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">{item.name}</p>
+                      <p className="text-sm">Quantity: {item.quantity}</p>
+                      <p className="text-sm">Subtotal: Rs. {item.total}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>Your cart is empty.</p>
+            )}
+            <div className="mt-auto flex justify-between">
+              <Link href="/cart">
+                <button className="bg-black text-white px-4 py-2 rounded">
+                  View Cart
+                </button>
+              </Link>
+              <Link href="/checkout">
+                <button className="bg-red-500 text-white px-4 py-2 rounded">
+                  Checkout
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
