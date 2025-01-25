@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, ReactNode,  } from "react";
+import { createContext, useState, ReactNode, useEffect } from "react";
 
 export interface FavoriteItem {
   _id: string;
@@ -22,11 +22,30 @@ export const FavoriteContext = createContext<FavoriteContextType>({
 });
 
 export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
-  const [favorites, setFavorites] = useState<FavoriteItem[]>(() => {
-    // Retrieve favorites data from Local Storage
-    const savedFavorites = localStorage.getItem('favorites');
-    return savedFavorites ? JSON.parse(savedFavorites) : [];
-  });
+  const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+  const [isClient, setIsClient] = useState(false); // Track client-side rendering
+
+  // Only run client-side code after component mounts
+  useEffect(() => {
+    setIsClient(true); // Set to true after the component mounts on the client
+  }, []);
+
+  // Fetch favorites from localStorage only in client-side
+  useEffect(() => {
+    if (isClient) {
+      const savedFavorites = localStorage.getItem('favorites');
+      if (savedFavorites) {
+        setFavorites(JSON.parse(savedFavorites));
+      }
+    }
+  }, [isClient]); // Runs when isClient is set to true
+
+  // Save favorites to localStorage on changes (client-side only)
+  useEffect(() => {
+    if (isClient && favorites.length > 0) {
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+  }, [favorites, isClient]); // Runs when favorites state changes
 
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -38,7 +57,6 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   const addToFavorites = (item: FavoriteItem) => {
     setFavorites((prevFavorites) => {
       const updatedFavorites = [...prevFavorites, item];
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
       return updatedFavorites;
     });
     showNotification(`${item.name} added to favorites!`);
@@ -47,7 +65,6 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   const removeFromFavorites = (slug: string) => {
     setFavorites((prevFavorites) => {
       const updatedFavorites = prevFavorites.filter((item) => item._id !== slug);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
       return updatedFavorites;
     });
     showNotification(`Item removed from favorites!`);

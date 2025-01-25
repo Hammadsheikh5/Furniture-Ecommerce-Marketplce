@@ -27,16 +27,25 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // CartProvider component to manage cart data
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    // Retrieve cart data from Local Storage on initial load
-    if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('cart');
-      return savedCart ? JSON.parse(savedCart) : [];
-    }
-    return [];
-  });
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isClient, setIsClient] = useState(false); // Track client-side rendering
 
   const [notification, setNotification] = useState<string | null>(null);
+
+  // Client-side only code
+  useEffect(() => {
+    setIsClient(true); // Set to true after the component mounts on the client
+  }, []);
+
+  // Fetch cart data from localStorage on client-side only
+  useEffect(() => {
+    if (isClient) {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
+    }
+  }, [isClient]); // Runs only after component mounts on the client
 
   // Function to display notifications
   const showNotification = (message: string) => {
@@ -81,14 +90,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   // Effect to update localStorage whenever the cart changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (isClient) {
       if (cart.length > 0) {
         localStorage.setItem('cart', JSON.stringify(cart));
       } else {
         localStorage.removeItem('cart');
       }
     }
-  }, [cart]); // Runs when cart state changes
+  }, [cart, isClient]); // Runs when cart state changes and client-side rendering is confirmed
 
   return (
     <CartContext.Provider value={{ cart, addToCart, clearCart, deleteCartItem }}>
