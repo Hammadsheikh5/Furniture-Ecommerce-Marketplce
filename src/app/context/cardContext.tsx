@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
+// CartItem type definition
 export interface CartItem {
   _id: string;
   name: string;
@@ -9,10 +10,11 @@ export interface CartItem {
   quantity: number;
   total: number;
   image: string;
-  size:string;
-  color:string;
+  size: string;
+  color: string;
 }
 
+// CartContext type definition
 interface CartContextType {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
@@ -20,25 +22,30 @@ interface CartContextType {
   deleteCartItem: (slug: string) => void;
 }
 
+// Create the CartContext
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+// CartProvider component to manage cart data
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>(() => {
-    // Retrieve cart data from Local Storage
-    const savedCart = localStorage.getItem('cart');
-    return savedCart ? JSON.parse(savedCart) : [];
+    // Retrieve cart data from Local Storage on initial load
+    if (typeof window !== 'undefined') {
+      const savedCart = localStorage.getItem('cart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    }
+    return [];
   });
-  // console.log(cart) 
+
   const [notification, setNotification] = useState<string | null>(null);
 
   // Function to display notifications
   const showNotification = (message: string) => {
     setNotification(message);
-    setTimeout(() => setNotification(null), 5000); // Hide after 5 seconds
+    setTimeout(() => setNotification(null), 5000); // Hide notification after 5 seconds
   };
 
+  // Function to add items to the cart
   const addToCart = (item: CartItem) => {
-    
     setCart((prev) => {
       const existingItem = prev.find((cartItem) => cartItem._id === item._id);
       if (existingItem) {
@@ -55,6 +62,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  // Function to delete an item from the cart
   const deleteCartItem = (slug: string) => {
     const itemToDelete = cart.find((item) => item._id === slug);
     if (itemToDelete) {
@@ -65,19 +73,22 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setCart([...newCart]);
   };
 
+  // Function to clear the cart
   const clearCart = () => {
     showNotification('Cart cleared!');
     setCart([]);
   };
 
-    // Save the cart data to LocalStorage whenever it changes
-    useEffect(() => {
+  // Effect to update localStorage whenever the cart changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
       if (cart.length > 0) {
         localStorage.setItem('cart', JSON.stringify(cart));
       } else {
         localStorage.removeItem('cart');
       }
-    }, [cart]);
+    }
+  }, [cart]); // Runs when cart state changes
 
   return (
     <CartContext.Provider value={{ cart, addToCart, clearCart, deleteCartItem }}>
@@ -85,7 +96,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
       {/* Notification UI */}
       {notification && (
-        <div className="fixed text-sm md:text-lg  bottom-8 right-8 bg-green-500 text-white p-4 rounded shadow-lg animate-fade">
+        <div className="fixed text-sm md:text-lg bottom-8 right-8 bg-green-500 text-white p-4 rounded shadow-lg animate-fade">
           {notification}
         </div>
       )}
@@ -93,6 +104,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Custom hook to use cart context
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) throw new Error('useCart must be used within a CartProvider');
