@@ -18,7 +18,7 @@ function OurBlogs() {
         <div className=" w-full h-auto flex flex-wrap px-4 md:px-10 justify-center gap-[20px]">
           {/*Blog 1*/}
           <div className="w-[393px] h-auto md:h-[555px]">
-            <Image src="/blog/pic 1.png" alt="" width={393} height={393} />
+            <Image src="/blog/pic 1.jpg" alt="" width={393} height={393} />
             <div className="py-[20px]">
               <p className="text-[20px] py-[10px] text-center">
                 Going all-in with millennial design
@@ -43,7 +43,7 @@ function OurBlogs() {
           </div>
           {/*Blog 2*/}
           <div className="w-[393px] h-auto md:h-[555px]">
-            <Image src="/blog/pic 2.png" alt="" width={393} height={393} />
+            <Image src="/blog/pic 2.jpg" alt="" width={393} height={393} />
             <div className="py-[20px]">
               <p className="text-[20px] py-[10px] text-center">
                 Going all-in with millennial design
@@ -68,7 +68,7 @@ function OurBlogs() {
           </div>
           {/*Blog 3*/}
           <div className="w-[393px] h-auto md:h-[555px]">
-            <Image src="/blog/pic 3.png" alt="" width={393} height={393} />
+            <Image src="/blog/pic 3.jpg" alt="" width={393} height={393} />
             <div className="py-[20px]">
               <p className="text-[20px] py-[10px] text-center">
                 Going all-in with millennial design

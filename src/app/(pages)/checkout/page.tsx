@@ -5,8 +5,9 @@ import Banner from "@/components/banner";
 import Header from "@/components/header";
 import React, { useState } from "react";
 import { GoDotFill } from "react-icons/go";
+import {  MdOutlineCancel } from "react-icons/md";
 
-interface CustomerInfo {
+export interface CustomerInfo {
   firstName: string;
   secondName: string;
   country: string;
@@ -19,9 +20,8 @@ interface CustomerInfo {
 }
 
 export default function CheckoutPage() {
-  const { cart } = useCart();
+  const { cart, deleteCartItem } = useCart();
   const [paymentMethod, setPaymentMethod] = useState<string>("");
-  const [deliveryCharges, setDeliveryCharges] = useState<number>(0);
 
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     firstName: "",
@@ -45,27 +45,56 @@ export default function CheckoutPage() {
   const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedPayment = e.target.value;
     setPaymentMethod(selectedPayment);
-    setDeliveryCharges(50); // Set delivery charges for both payment methods
   };
 
-  const handleCheckout = (event: React.FormEvent) => {
+  const handleCheckout = async (event: React.FormEvent) => {
     event.preventDefault();
+
     const isFormComplete = Object.values(customerInfo).every((value) => value);
     if (!isFormComplete || !paymentMethod) {
       alert("Please complete all required fields and select a payment method.");
       return;
     }
 
-    console.log(customerInfo);
-    console.log(cart);
-    console.log(`Your Total : ${grandTotal}`)
+    const orderData = {
+      customer: customerInfo,
+      items: cart.map((item, index) => ({
+        _id: item._id || `item-${index}`,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        total: item.price * item.quantity,
+        image: item.image,
+        size: item.size,
+        color: item.color,
+      })),
+    };
+
+    try {
+      // Sending POST request to the API
+      const response = await fetch("/api/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("Order placed successfully!");
+        // You can redirect to a confirmation page or clear the cart here
+      } else {
+        alert("Error occurred while placing the order.");
+      }
+    } catch (error) {
+      console.error("Error in checkout:", error);
+      alert("An error occurred while placing the order.");
+    }
   };
 
-  const subtotal = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-  const grandTotal = subtotal + deliveryCharges;
+
 
   return (
     <div className="text-black font-poppins bg-white">
@@ -235,19 +264,33 @@ export default function CheckoutPage() {
           {/* Order Summary Section */}
           <div className="w-full md:w-1/2 px-6 py-10">
             <div className="flex justify-between">
-              <h2 className="text-2xl font-semibold mb-4">Product</h2>
-              <h2 className="text-2xl font-semibold mb-4">Subtotal</h2>
+              <h2 className="text-xl md:text-2xl font-semibold mb-4">
+                Product
+              </h2>
+              <h2 className="text-xl md:text-2xl font-semibold mb-4">
+                Subtotal
+              </h2>
             </div>
 
             <div className="flex flex-col   gap-4 border-b-2 pb-4">
               {cart.map((item) => (
-                <div key={item._id} className="flex justify-between  ">
-                  <span className="w-1/2">
+                <div
+                  key={item._id}
+                  className="flex justify-between items-center "
+                >
+                  <span className="w-1/2 text-sm sm:text-base">
                     {item.name}{" "}
                     <span className="text-gray-500">x {item.quantity}</span>
                   </span>
-                  <span>
+                  <span className=" text-sm sm:text-base ">
                     Rs. {(item.price * item.quantity).toLocaleString()}
+                    <button
+                      onClick={() => {
+                        deleteCartItem(item._id);
+                      }}
+                    >
+                      <MdOutlineCancel className="ml-2  text-xl" />
+                    </button>
                   </span>
                 </div>
               ))}
@@ -265,14 +308,20 @@ export default function CheckoutPage() {
               </span>
             </div>
             <div className="flex justify-between">
-              <span>Delivery Charges</span>
-              <span>${" "}{deliveryCharges.toLocaleString()}</span>
+              <span>Shipping</span>
+              <span className="text-green-500">Free</span>
             </div>
+
             <div className="flex justify-between border-b-2 mt-2 pb-6">
               <span>Total</span>
               <span className="text-xl font-bold text-[#B88E2F]">
-                ${" "}
-                {grandTotal.toLocaleString()}
+                Rs.{" "}
+                {cart
+                  .reduce(
+                    (total, item) => total + item.price * item.quantity,
+                    0
+                  )
+                  .toLocaleString()}
               </span>
             </div>
             <div className="flex items-center gap-2 text-xl mt-4">
@@ -326,6 +375,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 onClick={handleCheckout}
+                disabled={cart.length === 0}
                 className=" w-1/2 py-3 text-xl text-center border-2 border-black rounded-xl hover:bg-[#ffefce]"
               >
                 Place Order

@@ -79,14 +79,17 @@ const ProductDetailComponent: React.FC<ProductDetailComponentProps> = ({
           <p className="text-xl sm:text-2xl lg:text-2xl text-[#9F9F9F] font-medium">
             ${product.price}
           </p>
-          {/* Stock Level */}
-          <p
-            className={`text-sm font-medium ${
-              product.stockLevel > 0 ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            {product.stockLevel > 0 ? "In Stock" : "Out of Stock"}
-          </p>
+          <div className="flex items-center gap-5">
+            {/* Stock Level */}
+            <p
+              className={`text-sm font-medium ${
+                product.stockLevel > 0 ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {product.stockLevel > 0 ? "In Stock" : "Out of Stock"}
+            </p>
+            <p>( {`${product.stockLevel} available`} )</p>
+          </div>
           {/* Rating */}
           <div className="rating-div flex items-center gap-3">
             <div className="star-div flex justify-between items-center text-lg sm:text-xl text-yellow-300">
